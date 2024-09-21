@@ -10,8 +10,19 @@ Access Type:Public
 Note: we need to verify employee exist or not. 
 If employee not exit we are going to create new employee
 */
-router.post("/create",(req,resp)=>{
-    let emp = req.body;
+router.post("/create",async(req,resp)=>{
+    let employee = req.body;
+    let employees = await getEmployees()
+    let emp_Data  = employees.find((emp)=>{
+        return emp.eid == employee.eid;
+    })
+    console.log(emp_Data)
+    if(emp_Data){
+        return resp.status(401).json({"msg":"Employee Already exists"})
+    }
+    employees.push(employee)
+    savemployees(employees)
+    return resp.status(200).json({"msg":"New Employee Created"})
 });
 
 /*
@@ -58,4 +69,7 @@ let getEmployees= ()=>{
     return JSON.parse(emp_Data)
 }
 
+let savemployees = (employees)=>{
+    fs.writeFileSync('data.json',JSON.stringify(employees))
+}
 export default router;
