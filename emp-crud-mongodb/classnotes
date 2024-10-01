@@ -1,0 +1,5 @@
+cmd> npm init -y
+cmd> open vs code and update package.json file
+cmd> install required dependencies
+     npm i express mongoose morgan dotenv chalk cors
+     
