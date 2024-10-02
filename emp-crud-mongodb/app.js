@@ -12,7 +12,9 @@ let port = process.env.PORT
 let host= process.env.HOST_NAME
 let mongodb_url=process.env.MongoDB_LOCAL_URL
 
- 
+//how to read form/post man body data?
+app.use(express.json()) 
+
 //http://127.0.0.1:8080/
 app.get("/",(req,resp)=>{
     resp.send("Root Request!")
