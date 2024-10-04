@@ -44,6 +44,38 @@ router.get("/read",async(req,resp)=>{
         return resp.status(500).json({'msg':err.message})
     }
 })
+/*
+   Usage : Update Employee Details
+   URL: http://127.0.0.1:8080/api/update/4509228752
+   Method Type:PUT
+   Required:eid, ename,esal
+   Access Type:Public/Private 
+*/
+router.put("/update/:xid",async(req,resp)=>{
+    try{
+        let emp_Id = req.params.xid;
+        console.log(emp_Id)
+        let updatedEmp = {
+            eid:req.body.eid,
+            ename:req.body.ename,
+            esal:req.body.esal
+        }
+        console.log(updatedEmp)
+        //let employee =req.body
+        let employee_Obj=await EmployeeModel.findById(emp_Id)
+        console.log(employee_Obj)
+        if(!employee_Obj){
+            return resp.status(401).json({'msg':"Employee Not Exits"})
+        }
+        await EmployeeModel.findByIdAndUpdate(emp_Id,updatedEmp)
+        return resp.status(200).json({"msg":"Employee Updated"})
+
+    }   
+    catch(err){
+        return resp.status(500).json({'msg':err.message})
+    }
+
+})
 /*  USAGE:Delete employee from collection
     URL  : http://127.0.0.1:8080/api/del/57932459808523
     Method:Delete
